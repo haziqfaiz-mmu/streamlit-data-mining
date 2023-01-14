@@ -90,6 +90,7 @@ def none_option(neighbors, X_clus, y_clus):
     
 
             # Generate plot
+            st.write("Plot the graph accuracy vs number of k")
             fig = plt.figure()
             plt.title('k-NN: Varying Number of Neighbors')
             #plt.plot(neighbors, test_accuracy, label = 'Testing Accuracy')
@@ -116,6 +117,9 @@ def none_option(neighbors, X_clus, y_clus):
             st.write("Then we plot the confusion matrix, ROC Curve and precision recall curve uing the best number of neighbors")
             st.subheader("Confusion Matrix")
             #plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
+            predictions=knn_gscv.best_estimator_.fit(x_train, y_train).predict(x_test)
+            cm = confusion_matrix(y_test, predictions, labels=knn_gscv.classes_)
+            disp = ConfusionMatrixDisplay(confusion_matrix=cm,display_labels=knn_gscv.classes_)
             st.pyplot()
             st.subheader("Precision Recall Curve")
             plot_precision_recall(y_test,y_score)
