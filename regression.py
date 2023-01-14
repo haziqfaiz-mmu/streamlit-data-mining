@@ -42,6 +42,7 @@ def regression(df):
     df_regression = df.drop(["Date"],axis=1)
     df_regression["Time"]=pd.to_datetime(df_regression["Time"], format='%H:%M:%S').dt.hour
     
+    st.subheader("Predicting the humidity of a certain day using regression model.")
 
     #Label encode
     label_encoder = preprocessing.LabelEncoder()

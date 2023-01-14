@@ -45,6 +45,8 @@ def clustering(df):
     #df.rename(columns = {'icon':'weather'}, inplace = True)
     colnames = X_clus.columns
 
+    st.subheader("Predicting the weather of the day using kNN.")
+
     #Label encode
     label_encoder = preprocessing.LabelEncoder()
     for col in X_clus:

@@ -6,7 +6,7 @@ import numpy as np
 def data_cleaning(originaldf,df):
     st.markdown("Original Dataset")
     st.dataframe(originaldf)
-    st.markdown("Merged, Cleaned and Normalized Dataset")
+    st.markdown("Merged, Cleaned and Partially Normalized Dataset")
     st.dataframe(df)
 
     categorical_col = df.select_dtypes(exclude='number').columns
