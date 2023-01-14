@@ -64,22 +64,8 @@ pd.set_option("display.max_columns", 50)
 pd.set_option('display.max_rows', 50)
 
 def classification(df):
-
-    model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with Boruta", "3. 2nd Order Polynomial Regression with RFE"),key='regression-model')
-
-    if model == "1. Linear Regression with RFE":
-        naivebayes()
-
-
-def ranking(ranks, names, order=1):
-    minmax = MinMaxScaler() # everything will be between 0 and 1
-    ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]
-    ranks = map(lambda x: round(x,2), ranks)
-    return dict(zip(names, ranks))
-
-def naivebayes():
     st.sidebar.subheader("Chooose Classification Model")
-    model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with BORUTA", "Ensemble Model"),key='classification-model')
+    model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with Boruta", "3. 2nd Order Polynomial Regression with RFE"),key='regression-model')
 
     df_ori = pd.read_csv("merged-normalized.csv")
     df_drop = df_ori.drop(['Date', 'Time', 'latitude', 'longitude'], axis=1)
@@ -96,7 +82,18 @@ def naivebayes():
     X = df_label.drop(['Basket_Size'], axis=1)
     colnames = X.columns
 
-    if (model == "1. Random Forest with Boruta") and (st.sidebar.button("Run model", key='run')):
+    if model == "1. Naive Bayes":
+        naivebayes(df_label)
+
+
+def ranking(ranks, names, order=1):
+    minmax = MinMaxScaler() # everything will be between 0 and 1
+    ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]
+    ranks = map(lambda x: round(x,2), ranks)
+    return dict(zip(names, ranks))
+
+def naivebayes(df_label):
+    if st.sidebar.button("Run model", key='run'):
         rf = RandomForestClassifier(n_jobs=-1, class_weight='balanced_subsample', max_depth=5)
 
         feat_selector_rf = BorutaPy(rf, n_estimators='auto', random_state=1)
@@ -124,5 +121,6 @@ def naivebayes():
         y_pred = nb.predict(X_test)
 
         st.write(nb.score(X_test, y_test))
+
 
     
