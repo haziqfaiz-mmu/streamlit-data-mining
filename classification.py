@@ -83,7 +83,7 @@ def classification(df):
     colnames = X.columns
 
     if model == "1. Naive Bayes":
-        naivebayes(df_label)
+        naivebayes(df_label,X,y)
 
 
 def ranking(ranks, names, order=1):
@@ -92,7 +92,7 @@ def ranking(ranks, names, order=1):
     ranks = map(lambda x: round(x,2), ranks)
     return dict(zip(names, ranks))
 
-def naivebayes(df_label):
+def naivebayes(df_label,X,y):
     if st.sidebar.button("Run model", key='run'):
         rf = RandomForestClassifier(n_jobs=-1, class_weight='balanced_subsample', max_depth=5)
 
