@@ -21,6 +21,6 @@ def data_cleaning(originaldf,df):
     df[numerical_plot].plot(kind='hist')
     st.pyplot(fig2)
     numerical_box=st.selectbox("View Box Plot of Numerical Variables",(numerical_col),key="numerical box")
-    fig3 = plt.figure() 
+    fig4 = plt.figure() 
     df[numerical_box].plot(kind='box')
-    st.pyplot(fig3)
+    st.pyplot(fig4)
