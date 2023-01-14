@@ -35,7 +35,6 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
-from sklearn.metrics import plot_confusion_matrix, plot_roc_curve, plot_precision_recall_curve
 
 from sklearn.preprocessing import label_binarize
 from sklearn.metrics import roc_curve, auc
