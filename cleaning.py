@@ -20,3 +20,6 @@ def data_cleaning(originaldf,df):
     fig2 = plt.figure() 
     df[numerical_plot].plot(kind='hist')
     st.pyplot(fig2)
+    fig3 = fig2 = plt.figure() 
+    df[[numerical_col]].plot(kind='box')
+    st.pyplot(fig3)
