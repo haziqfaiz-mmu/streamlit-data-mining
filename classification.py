@@ -81,7 +81,7 @@ def classification(df):
     X = df_label.drop(['Basket_Size'], axis=1)
     colnames = X.columns
 
-    if model == "1. Random Forest with Boruta":
+    if (model == "1. Random Forest with Boruta") and (st.sidebar.button("Run model", key='run')):
         rf = RandomForestClassifier(n_jobs=-1, class_weight='balanced_subsample', max_depth=5)
 
         feat_selector_rf = BorutaPy(rf, n_estimators='auto', random_state=1)
