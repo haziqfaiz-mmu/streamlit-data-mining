@@ -84,7 +84,8 @@ def classification(df):
 
     if model == "1. Naive Bayes":
         naivebayes(df_label,X,y,colnames)
-
+    if model ==  "2. Random Forest with Boruta":
+        randomforest(df_label,X,y,colnames)
 
 def ranking(ranks, names, order=1):
     minmax = MinMaxScaler() # everything will be between 0 and 1
@@ -103,7 +104,9 @@ def naivebayes(df_label,X,y,colnames):
         boruta_score = pd.DataFrame(list(boruta_score.items()), columns=['Features', 'Score'])
         boruta_score = boruta_score.sort_values("Score", ascending = False)
 
+        st.write("The top 10 BORUTA features are:")
         st.write(boruta_score.head(10))
+        st.write("The bottom 10 BORUTA features are")
         st.write(boruta_score.tail(10))
 
         head = boruta_score.head(15) 
@@ -120,7 +123,39 @@ def naivebayes(df_label,X,y,colnames):
 
         y_pred = nb.predict(X_test)
 
-        st.write(nb.score(X_test, y_test))
+        st.write("The accuracy for naive bayes is",nb.score(X_test, y_test))
+
+def randomforest(df_label,X,y,colnames):
+        rf = RandomForestClassifier(n_jobs=-1, class_weight='balanced_subsample', max_depth=5)
+
+        feat_selector_rf = BorutaPy(rf, n_estimators='auto', random_state=1)
+        feat_selector_rf.fit(X.values, y.values.ravel())
+
+        boruta_score = ranking(list(map(float, feat_selector_rf.ranking_)), colnames, order=-1)
+        boruta_score = pd.DataFrame(list(boruta_score.items()), columns=['Features', 'Score'])
+        boruta_score = boruta_score.sort_values("Score", ascending = False)
+
+        st.write("The top 10 BORUTA features are:")
+        st.write(boruta_score.head(10))
+        st.write("The bottom 10 BORUTA features are")
+        st.write(boruta_score.tail(10))
+
+        head = boruta_score.head(15) 
+        head_features = head['Features']
+
+        y = df_label['Basket_Size']
+        X = df_label[head_features] 
+        colnames = X.columns
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=10)
+
+        nb = GaussianNB()
+        rf.fit(X_train, y_train)
+
+        y_pred = rf.predict(X_test)
+
+        st.write("The accuracy for random forest is",rf.score(X_test, y_test))
+
 
 
     
