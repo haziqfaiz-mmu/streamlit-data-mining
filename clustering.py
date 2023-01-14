@@ -30,7 +30,7 @@ from sklearn.pipeline import Pipeline
 import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import plot_confusion_matrix, roc_curve, precision_recall_curve
+#from sklearn.metrics import plot_confusion_matrix, roc_curve, precision_recall_curve
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 from imblearn.over_sampling import RandomOverSampler
@@ -115,7 +115,7 @@ def none_option(neighbors, X_clus, y_clus):
 
             st.write("Then we plot the confusion matrix, ROC Curve and precision recall curve uing the best number of neighbors")
             st.subheader("Confusion Matrix")
-            plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
+            #plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
             st.pyplot()
             st.subheader("Precision Recall Curve")
             plot_precision_recall(y_test,y_score)
@@ -168,7 +168,7 @@ def smote_option(neighbors, X_clus, y_clus):
 
             st.write("Then we plot the confusion matrix, ROC Curve and precision recall curve uing the best number of neighbors")
             st.subheader("Confusion Matrix")
-            plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
+            #plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
             st.pyplot()
             st.subheader("Precision Recall Curve")
             plot_precision_recall(y_test,y_score)
@@ -221,7 +221,7 @@ def undersample_option(neighbors, X_clus, y_clus):
 
             st.write("Then we plot the confusion matrix, ROC Curve and precision recall curve uing the best number of neighbors")
             st.subheader("Confusion Matrix")
-            plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
+            #plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
             st.pyplot()
             st.subheader("Precision Recall Curve")
             plot_precision_recall(y_test,y_score)
@@ -275,7 +275,7 @@ def oversample_option(neighbors, X_clus, y_clus):
 
             st.write("Then we plot the confusion matrix, ROC Curve and precision recall curve uing the best number of neighbors")
             st.subheader("Confusion Matrix")
-            plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
+            #plot_confusion_matrix(knn_gscv.best_estimator_, x_test, y_test)
             st.pyplot()
 
             
