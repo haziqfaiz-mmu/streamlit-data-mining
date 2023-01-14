@@ -68,6 +68,7 @@ def classification(df):
     model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with BORUTA", "Ensemble Model"),key='classification-model')
 
     df_ori = pd.read_csv("merged-normalized.csv")
+    df_drop = df_ori.drop(['Date', 'Time', 'latitude', 'longitude'], axis=1)
     df_label = df_drop.copy()
 
     label_encoder = preprocessing.LabelEncoder()
