@@ -64,6 +64,20 @@ pd.set_option("display.max_columns", 50)
 pd.set_option('display.max_rows', 50)
 
 def classification(df):
+
+    model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with Boruta", "3. 2nd Order Polynomial Regression with RFE"),key='regression-model')
+
+    if model == "1. Linear Regression with RFE":
+        naivebayes()
+
+
+def ranking(ranks, names, order=1):
+    minmax = MinMaxScaler() # everything will be between 0 and 1
+    ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]
+    ranks = map(lambda x: round(x,2), ranks)
+    return dict(zip(names, ranks))
+
+def naivebayes():
     st.sidebar.subheader("Chooose Classification Model")
     model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with BORUTA", "Ensemble Model"),key='classification-model')
 
@@ -111,10 +125,4 @@ def classification(df):
 
         st.write(nb.score(X_test, y_test))
 
-
-def ranking(ranks, names, order=1):
-    minmax = MinMaxScaler() # everything will be between 0 and 1
-    ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]
-    ranks = map(lambda x: round(x,2), ranks)
-    return dict(zip(names, ranks))
     
