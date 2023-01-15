@@ -14,6 +14,7 @@ from classification import *
 from regression import *
 from clustering import *
 from download import *
+from association import *
 
 def main():
     st.title("Data Mining Project")
@@ -53,6 +54,9 @@ def main():
 
     if section == '3. Regression':
         regression(df)
+
+    if section == '4. Association Mining':
+        association(df)
 
     if section == "5. Clustering":
         clustering(df)

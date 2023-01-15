@@ -65,7 +65,7 @@ pd.set_option('display.max_rows', 50)
 
 def classification(df):
     st.sidebar.subheader("Chooose Classification Model")
-    model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with Boruta", "3. 2nd Order Polynomial Regression with RFE"),key='regression-model')
+    model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with Boruta", "3. Stacking Ensemble"),key='regression-model')
 
     df_ori = pd.read_csv("merged-normalized.csv")
     df_drop = df_ori.drop(['Date', 'Time', 'latitude', 'longitude'], axis=1)
@@ -86,6 +86,9 @@ def classification(df):
         naivebayes(df_label,X,y,colnames)
     if model ==  "2. Random Forest with Boruta":
         randomforest(df_label,X,y,colnames)
+    if model == "3. Stacking Ensemble":
+        stacking(df_label,X,y)
+
 
 def ranking(ranks, names, order=1):
     minmax = MinMaxScaler() # everything will be between 0 and 1
@@ -156,6 +159,67 @@ def randomforest(df_label,X,y,colnames):
 
         st.write("The accuracy for random forest is",rf.score(X_test, y_test))
 
+def stacking(df_label,X,y,head_features):
+    models = dict()
+
+    models["knn"] = KNeighborsClassifier()
+    models["cart"] = DecisionTreeClassifier()
+    models["rf"] = RandomForestClassifier()
+    models["bayes"] = GaussianNB()
+
+    models["stacking"] = get_stacking()
+
+    y = df_label['Basket_Size']
+    X = df_label[head_features] 
+    colnames = X.columns
+    feat_selector_rf = BorutaPy(rf, n_estimators='auto', random_state=1)
+    feat_selector_rf.fit(X.values, y.values.ravel())
+
+    boruta_score = ranking(list(map(float, feat_selector_rf.ranking_)), colnames, order=-1)
+    boruta_score = pd.DataFrame(list(boruta_score.items()), columns=['Features', 'Score'])
+    boruta_score = boruta_score.sort_values("Score", ascending = False)
+
+    st.write("The top 10 BORUTA features are:")
+    st.write(boruta_score.head(10))
+    st.write("The bottom 10 BORUTA features are")
+    st.write(boruta_score.tail(10))
+
+    head = boruta_score.head(15) 
+    head_features = head['Features']
+
+    # Evaluate models and store results
+    results, names = list(), list()
+
+    for name, model in models.items():
+        scores = evaluate_model(model, X, y)
+        results.append(scores)
+        names.append(name)
+        print(">%s %.3f (%.3f)" % (name, mean(scores), std(scores)))
+    
+    # plot model performance for comparison based on f1-score
+    plt.boxplot(results, labels=names, showmeans=True)
+    plt.show()
+
+# get a stacking ensemble of models
+def get_stacking():
+    # define the base models
+    level0 = list()
+    level0.append(('knn', KNeighborsClassifier()))
+    level0.append(('cart', DecisionTreeClassifier()))
+    level0.append(('rf', RandomForestClassifier()))    
+    level0.append(('bayes', GaussianNB()))
+    
+    # define stacking ensemble
+    level1 = GaussianNB()     
+    model = StackingClassifier(estimators=level0, final_estimator=level1, cv=5)   
+    
+    return model
+
+# evaluate model using cross-validation
+def evaluate_model(model, X, y):
+    cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=10)
+    scores = cross_val_score(model, X, y, scoring='f1', cv=cv, n_jobs=-1, error_score='raise')
+    return scores
 
 
     
