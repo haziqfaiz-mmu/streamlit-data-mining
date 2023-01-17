@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 def data_cleaning(originaldf,df):
+    st.title("Data Cleaning, Preparation and EDA")
     st.markdown("Original Dataset")
     st.dataframe(originaldf)
     st.markdown("Merged, Cleaned and Partially Normalized Dataset")

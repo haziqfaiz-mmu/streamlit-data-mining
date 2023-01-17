@@ -44,7 +44,7 @@ def clustering(df):
     y_clus = df["weather"]
     #df.rename(columns = {'icon':'weather'}, inplace = True)
     colnames = X_clus.columns
-
+    st.title("k-Nearest Neighbor")
     st.subheader("Predicting the weather of the day using kNN.")
 
     #Label encode

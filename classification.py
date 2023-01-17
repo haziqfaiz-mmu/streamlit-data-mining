@@ -64,6 +64,7 @@ pd.set_option("display.max_columns", 50)
 pd.set_option('display.max_rows', 50)
 
 def classification(df):
+    st.title("Classification")
     st.sidebar.subheader("Chooose Classification Model")
     model = st.sidebar.selectbox("Models", ("1. Naive Bayes", "2. Random Forest with Boruta", "3. Stacking Ensemble"),key='regression-model')
 

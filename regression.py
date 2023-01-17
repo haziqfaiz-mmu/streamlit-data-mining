@@ -38,6 +38,7 @@ def ranking(ranks, names, order=1):
 
 
 def regression(df):
+    st.title("Regression")
     st.sidebar.subheader("Chooose Regression Model")
     df_regression = df.drop(["Date"],axis=1)
     df_regression["Time"]=pd.to_datetime(df_regression["Time"], format='%H:%M:%S').dt.hour
