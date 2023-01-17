@@ -80,9 +80,11 @@ def lr_with_rfe(X_reg,y_reg,colnames):
         rfe_score = ranking(list(map(float, rfe.ranking_)), colnames, order=-1)
         rfe_score = pd.DataFrame(list(rfe_score.items()), columns=['Features', 'Score'])
         rfe_score = rfe_score.sort_values("Score", ascending = False)
+        st.markdown("RFE scores ranked in descending order.")
         st.write(rfe_score)
 
         optimal_X = X_reg.iloc[:, rfe.support_]
+        st.markdown("New dataset chosen from optimal RFE features")
         st.write(optimal_X)
 
         # evaluate model
@@ -104,9 +106,11 @@ def lasso_with_rfe(X_reg,y_reg,colnames):
         rfe_score = ranking(list(map(float, rfe2.ranking_)), colnames, order=-1)
         rfe_score = pd.DataFrame(list(rfe_score.items()), columns=['Features', 'Score'])
         rfe_score = rfe_score.sort_values("Score", ascending = False)
+        st.markdown("RFE scores ranked in descending order.")
         st.write(rfe_score)
 
         optimal_X = X_reg.iloc[:, rfe2.support_]
+        st.markdown("New dataset chosen from optimal RFE features")
         st.write(optimal_X)
 
         # evaluate model
@@ -130,6 +134,7 @@ def poly_with_rfe(X_reg,y_reg,colnames):
         rfe_score = ranking(list(map(float, rfe_poly.ranking_)), colnames, order=-1)
         rfe_score = pd.DataFrame(list(rfe_score.items()), columns=['Features', 'Score'])
         rfe_score = rfe_score.sort_values("Score", ascending = False)
+        st.markdown("RFE scores ranked in descending order.")
         st.write(rfe_score)
 
         pipeline = Pipeline(steps=[('s',rfe_poly),('m',poly_model)])
