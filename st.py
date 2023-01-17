@@ -43,7 +43,7 @@ def main():
     
     st.sidebar.subheader("Choose Section")
     section = st.sidebar.selectbox("Sections", ("1. Data Cleaning and Exploration", "2. Classification"
-    , "3. Regression", "4. Association Mining", "5. Clustering"), key='section')
+    , "3. Regression", "4. Association Mining","5. Clustering", "6. k-Nearest Neighbor (extra)"), key='section')
 
     
     if section == '1. Data Cleaning and Exploration':
@@ -58,7 +58,7 @@ def main():
     if section == '4. Association Mining':
         association(df)
 
-    if section == "5. Clustering":
+    if section == "6. k-Nearest Neighbor (extra)":
         clustering(df)
 
 #Add download button

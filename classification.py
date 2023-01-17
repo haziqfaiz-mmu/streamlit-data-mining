@@ -90,6 +90,7 @@ def classification(df):
         stacking(df_label,X,y)
 
 
+
 def ranking(ranks, names, order=1):
     minmax = MinMaxScaler() # everything will be between 0 and 1
     ranks = minmax.fit_transform(order*np.array([ranks]).T).T[0]
