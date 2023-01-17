@@ -15,6 +15,7 @@ from regression import *
 from clustering import *
 from download import *
 from association import *
+from kmeans import *
 
 def main():
     st.title("Data Mining Project")
@@ -57,6 +58,9 @@ def main():
 
     if section == '4. Association Mining':
         association(df)
+
+    if section == '5. Clustering':
+        kmeans(df)
 
     if section == "6. k-Nearest Neighbor (extra)":
         clustering(df)
